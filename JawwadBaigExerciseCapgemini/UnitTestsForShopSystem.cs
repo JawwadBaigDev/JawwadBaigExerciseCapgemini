@@ -8,10 +8,21 @@ namespace JawwadBaigExerciseCapgemini
     public class ShopBillingSystem
     {
 
+        enum MenuItemTypes
+        {
+            Drinks, Food
+        }
+
+        enum ServicCharges
+        {
+            TenPercent = 10, TwentyPercent = 20
+        }
+
         class ItemDetails
         {
             public double Price { get; set; }
             public bool isHot { get; set; }
+            public string itemType { get; set; }
 
         }
 
@@ -19,9 +30,9 @@ namespace JawwadBaigExerciseCapgemini
         {
             var menu = new Dictionary<string, ItemDetails>();
 
-            menu.Add("Cola", new ItemDetails() { isHot = false, Price = 0.50 });
-            menu.Add("Coffee", new ItemDetails() { isHot = true, Price = 1.00 });
-            menu.Add("Cheese Sandwich", new ItemDetails() { isHot = false, Price = 2.00 });
+            menu.Add("Cola", new ItemDetails() { isHot = false, itemType = MenuItemTypes.Drinks.ToString(), Price = 0.50 });
+            menu.Add("Coffee", new ItemDetails() { isHot = true, itemType = MenuItemTypes.Drinks.ToString(), Price = 1.00 });
+            menu.Add("Cheese Sandwich", new ItemDetails() { isHot = false, itemType = MenuItemTypes.Food.ToString(), Price = 2.00 });
 
             double runningTotal = 0;
 
@@ -30,8 +41,36 @@ namespace JawwadBaigExerciseCapgemini
                 runningTotal = runningTotal + menu[item].Price;
             }
 
+            foreach (var item in purchasedItems)
+            {
+                if (CalculateServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TenPercent.ToString())
+                {
+                    runningTotal = runningTotal + runningTotal * 10 / 100;
+                }
+                else if (CalculateServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TwentyPercent.ToString())
+                {
+                    runningTotal = runningTotal + runningTotal * 20 / 100;
+                }
+            }
+
             return runningTotal;
 
+        }
+
+        public string CalculateServiceCharges(string purchasedItemsType, bool isHot)
+        {
+            //step 6
+            if (purchasedItemsType == MenuItemTypes.Food.ToString() && isHot)
+            {
+                return ServicCharges.TwentyPercent.ToString();
+            }
+            else if (purchasedItemsType == MenuItemTypes.Food.ToString() && !isHot)
+            {
+                return ServicCharges.TenPercent.ToString();
+            }
+            
+
+            return string.Empty;
         }
 
     }
@@ -72,6 +111,21 @@ namespace JawwadBaigExerciseCapgemini
             itemList.Add("Coffee");
             Assert.AreEqual(shopBillingSystem.StandardBill(itemList), 1.5);
         }
+
+        // step 6
+        [TestMethod]
+        public void BillWithServiceCharge_10_Percent_ForFood()
+        {
+            ShopBillingSystem shopBillingSystem = new ShopBillingSystem();
+            List<string> itemList = new List<string>();
+            itemList.Add("Cola");
+            itemList.Add("Coffee");
+            itemList.Add("Cheese Sandwich");
+            // one food item included so add 10% chanrge to total bill
+            Assert.AreEqual(shopBillingSystem.StandardBill(itemList), 3.85);
+        }
+
+
 
     }
 
