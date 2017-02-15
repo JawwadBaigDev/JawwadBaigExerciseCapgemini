@@ -33,6 +33,7 @@ namespace JawwadBaigExerciseCapgemini
             menu.Add("Cola", new ItemDetails() { isHot = false, itemType = MenuItemTypes.Drinks.ToString(), Price = 0.50 });
             menu.Add("Coffee", new ItemDetails() { isHot = true, itemType = MenuItemTypes.Drinks.ToString(), Price = 1.00 });
             menu.Add("Cheese Sandwich", new ItemDetails() { isHot = false, itemType = MenuItemTypes.Food.ToString(), Price = 2.00 });
+            menu.Add("Steak Sandwich", new ItemDetails() { isHot = true, itemType = MenuItemTypes.Food.ToString(), Price = 4.50 });
 
             double runningTotal = 0;
 
@@ -125,6 +126,17 @@ namespace JawwadBaigExerciseCapgemini
             Assert.AreEqual(shopBillingSystem.StandardBill(itemList), 3.85);
         }
 
+        [TestMethod]
+        public void BillWithServiceCharge_20_Percent_ForHotFood()
+        {
+            ShopBillingSystem shopBillingSystem = new ShopBillingSystem();
+            List<string> itemList = new List<string>();
+            itemList.Add("Cola");
+            itemList.Add("Coffee");
+            itemList.Add("Steak Sandwich");
+            // one hot food item included so add 20% chanrge to total bill
+            Assert.AreEqual(shopBillingSystem.StandardBill(itemList), 7.2);
+        }
 
 
     }
