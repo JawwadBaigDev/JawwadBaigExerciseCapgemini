@@ -44,11 +44,11 @@ namespace JawwadBaigExerciseCapgemini
 
             foreach (var item in purchasedItems)
             {
-                if (CalculateServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TenPercent.ToString())
+                if (DetectServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TenPercent.ToString())
                 {
                     runningTotal = runningTotal + runningTotal * 10 / 100;
                 }
-                else if (CalculateServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TwentyPercent.ToString())
+                else if (DetectServiceCharges(menu[item].itemType, menu[item].isHot) == ServicCharges.TwentyPercent.ToString())
                 {
                     runningTotal = runningTotal + runningTotal * 20 / 100;
                 }
@@ -58,7 +58,7 @@ namespace JawwadBaigExerciseCapgemini
 
         }
 
-        public string CalculateServiceCharges(string purchasedItemsType, bool isHot)
+        public string DetectServiceCharges(string purchasedItemsType, bool isHot)
         {
             //step 6
             if (purchasedItemsType == MenuItemTypes.Food.ToString() && isHot)
