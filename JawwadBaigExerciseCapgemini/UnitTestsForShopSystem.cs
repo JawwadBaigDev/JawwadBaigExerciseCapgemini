@@ -62,6 +62,17 @@ namespace JawwadBaigExerciseCapgemini
         }
 
 
+        
+        [TestMethod]
+        public void NoServiceChargeForDrinks()
+        {
+            ShopBillingSystem shopBillingSystem = new ShopBillingSystem();
+            List<string> itemList = new List<string>();
+            itemList.Add("Cola");
+            itemList.Add("Coffee");
+            Assert.AreEqual(shopBillingSystem.StandardBill(itemList), 1.5);
+        }
+
     }
 
 
